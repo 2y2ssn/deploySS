@@ -6,7 +6,6 @@ Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.
 ```
 wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 启用 BBR
-# https://github.com/ylx2016/Linux-NetSpeed
 ```
 ```
 # 查看当前支持TCP算法
