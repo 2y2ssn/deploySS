@@ -9,11 +9,11 @@ wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
 # https://github.com/ylx2016/Linux-NetSpeed
 ```
 ```
-查看当前支持TCP算法
+# 查看当前支持TCP算法
 cat /proc/sys/net/ipv4/tcp_allowed_congestion_control
-查看当前运行的算法
+# 查看当前运行的算法
 cat /proc/sys/net/ipv4/tcp_congestion_control
-查看当前队列算法
+# 查看当前队列算法
 sysctl net.core.default_qdisc
 ```
 
@@ -62,5 +62,6 @@ rm -rf /etc/shadowsocks
 
 ## Thanks
 1. [shadowsocks-rust](https://github.com/shadowsocks/shadowsocks-rust)
-2. [Docker Docs](https://docs.docker.com/engine/install/ubuntu/)
-3. [watchtower: A process for automating Docker container base image updates.](https://github.com/containrrr/watchtower)
+2. [Linux 常用的网络加速 & Reinstall System](https://github.com/ylx2016/Linux-NetSpeed)
+3. [Docker Docs](https://docs.docker.com/engine/install/ubuntu/)
+4. [watchtower: A process for automating Docker container base image updates.](https://github.com/containrrr/watchtower)
