@@ -1,13 +1,22 @@
 # Deploy Shadowsocks-rust
 Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.
 
-## 准备
+## Preparation
 `apt update && apt install ca-certificates wget -y && update-ca-certificates`
 ```
 wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 启用 BBR
 # https://github.com/ylx2016/Linux-NetSpeed
 ```
+```
+查看当前支持TCP算法
+cat /proc/sys/net/ipv4/tcp_allowed_congestion_control
+查看当前运行的算法
+cat /proc/sys/net/ipv4/tcp_congestion_control
+查看当前队列算法
+sysctl net.core.default_qdisc
+```
+
 ## 安装 Docker
 `curl -fsSL https://get.docker.com -o get-docker.sh`
 
@@ -40,7 +49,7 @@ docker run --name ss-rust --restart always -p 9000:9000/tcp -p 9000:9000/udp -v 
 docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup
 ```
 
-# Uninstall 
+## Uninstall 
 ```
 docker stop ss-rust && docker stop watchtower
 docker rm -f ss-rust && docker rm -f watchtower
