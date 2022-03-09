@@ -1,7 +1,13 @@
 # Deploy Shadowsocks-rust
 Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.
 
-
+## 准备
+`apt update && apt install ca-certificates wget -y && update-ca-certificates`
+```
+wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
+# 选择 11 启用 BBR
+# https://github.com/ylx2016/Linux-NetSpeed
+```
 ## 安装 Docker
 `curl -fsSL https://get.docker.com -o get-docker.sh`
 
