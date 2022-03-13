@@ -21,6 +21,13 @@ sysctl net.core.default_qdisc
 
 `DRY_RUN=1 sh ./get-docker.sh`
 
+```
+systemctl start docker && systemctl enable docker
+# 查看 Docker 运行状态
+# systemctl status docker
+```
+
+
 ## Shadowsocks-rust 配置
 `mkdir -p /etc/shadowsocks-rust`
 ```
@@ -46,6 +53,13 @@ docker run --name ss-rust --restart always -p 9000:9000/tcp -p 9000:9000/udp -v 
 ```
 ```
 docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup
+```
+
+```
+# 查看容器在线状态及大小
+docker ps -as
+# 查看容器的运行输出日志
+docker logs ss-rust
 ```
 
 ## Uninstall 
