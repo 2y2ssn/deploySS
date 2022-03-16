@@ -2,7 +2,10 @@
 Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.
 
 ## Preparation
-`apt update && apt install ca-certificates wget -y && update-ca-certificates`
+```
+apt update && apt install ca-certificates wget -y && update-ca-certificates
+```
+
 ```
 wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 启用 BBR
@@ -17,9 +20,13 @@ sysctl net.core.default_qdisc
 ```
 
 ## 安装 Docker
-`curl -fsSL https://get.docker.com -o get-docker.sh`
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+```
 
-`sudo sh get-docker.sh`
+```
+sudo sh get-docker.sh
+```
 
 ```
 systemctl start docker && systemctl enable docker
@@ -29,7 +36,10 @@ systemctl start docker && systemctl enable docker
 
 
 ## Shadowsocks-rust 配置
-`mkdir -p /etc/shadowsocks-rust`
+```
+mkdir -p /etc/shadowsocks-rust
+```
+
 ```
 cat > /etc/shadowsocks-rust/config.json <<EOF
 {
