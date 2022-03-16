@@ -19,7 +19,7 @@ sysctl net.core.default_qdisc
 ## 安装 Docker
 `curl -fsSL https://get.docker.com -o get-docker.sh`
 
-`DRY_RUN=1 sh ./get-docker.sh`
+`sudo sh get-docker.sh`
 
 ```
 systemctl start docker && systemctl enable docker
