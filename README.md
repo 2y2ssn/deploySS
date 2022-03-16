@@ -69,6 +69,8 @@ docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/ru
 ```
 # 查看容器在线状态及大小
 docker ps -as
+# 查看 docker 容器占用 CPU，内存等信息
+docker stats --no-stream
 # 查看容器的运行输出日志
 docker logs ss-rust
 ```
