@@ -1,5 +1,5 @@
 # Deploy Shadowsocks-rust
-Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.
+**Deploy shadowsocks-rust by Docker and use watchtower to autoupdate container.**
 
 ## Preparation
 ```
@@ -7,7 +7,7 @@ apt update && apt install ca-certificates wget -y && update-ca-certificates
 ```
 
 ```
-wget -O tcpx.sh "https://git.io/JYxKU" && chmod +x tcpx.sh && ./tcpx.sh
+wget -O tcpx.sh "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 启用 BBR
 ```
 ```
@@ -40,12 +40,14 @@ systemctl start docker && systemctl enable docker
 mkdir -p /etc/shadowsocks-rust
 ```
 
+**修改配置文件中的 `server_port` 和 `password`**
+
 ```
 cat > /etc/shadowsocks-rust/config.json <<EOF
 {
     "server":"0.0.0.0",
     "server_port":9000,
-    "password":"password0",
+    "password":"GeneratePassword",
     "timeout":300,
     "method":"aes-256-gcm",
     "fast_open":false,
@@ -57,10 +59,11 @@ EOF
 
 ## Pull the image and start 
 ```
-docker pull ghcr.io/shadowsocks/ssserver-rust:latest && docker pull containrrr/watchtower
+docker pull ghcr.io/shadowsocks/ssserver-rust && docker pull containrrr/watchtower
 ```
+**修改 `-p 9000:9000/tcp -p 9000:9000/udp` 为 shadowsocks-rust 配置文件中的端口**
 ```
-docker run --name ss-rust --restart always -p 9000:9000/tcp -p 9000:9000/udp -v /etc/shadowsocks-rust/config.json:/etc/shadowsocks-rust/config.json -dit ghcr.io/shadowsocks/ssserver-rust:latest
+docker run --name ss-rust --restart always -p 9000:9000/tcp -p 9000:9000/udp -v /etc/shadowsocks-rust/config.json:/etc/shadowsocks-rust/config.json -dit ghcr.io/shadowsocks/ssserver-rust
 ```
 ```
 docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup
@@ -77,13 +80,14 @@ docker logs ss-rust
 
 ## Uninstall 
 ```
-docker stop ss-rust && docker stop watchtower
-docker rm -f ss-rust && docker rm -f watchtower
-systemctl stop docker && systemctl disable docker
+docker stop ss-rust && docker rm -f ss-rust
+
+systemctl stop docker && systemctl disable/enable docker
+
 apt purge docker-ce docker-ce-cli containerd.io
 rm -rf /var/lib/docker
 rm -rf /var/lib/containerd
-rm -rf /etc/shadowsocks
+rm -rf /etc/shadowsocks-rust
 ```
 
 ## Thanks
