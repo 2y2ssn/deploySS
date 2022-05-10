@@ -12,11 +12,11 @@ wget -O tcpx.sh "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master
 ```
 ```
 # 查看当前支持TCP算法
-cat /proc/sys/net/ipv4/tcp_allowed_congestion_control
+$ cat /proc/sys/net/ipv4/tcp_allowed_congestion_control
 # 查看当前运行的算法
-cat /proc/sys/net/ipv4/tcp_congestion_control
+$ cat /proc/sys/net/ipv4/tcp_congestion_control
 # 查看当前队列算法
-sysctl net.core.default_qdisc
+$ sysctl net.core.default_qdisc
 ```
 
 ## 安装 Docker
@@ -29,9 +29,9 @@ sudo sh get-docker.sh
 ```
 
 ```
-systemctl start docker && systemctl enable docker
+$ systemctl start docker && systemctl enable docker
 # 查看 Docker 运行状态
-# systemctl status docker
+$ systemctl status docker
 ```
 
 
@@ -66,28 +66,26 @@ docker pull ghcr.io/shadowsocks/ssserver-rust && docker pull containrrr/watchtow
 docker run --name ss-rust --restart always -p 9000:9000/tcp -p 9000:9000/udp -v /etc/shadowsocks-rust/config.json:/etc/shadowsocks-rust/config.json -dit ghcr.io/shadowsocks/ssserver-rust
 ```
 ```
-docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup
+docker run -d --name watchtower --restart=always -v /var/run/docker.sock:/var/run/docker.sock containrrr/watchtower --cleanup --interval=86400
 ```
 
 ```
 # 查看容器在线状态及大小
-docker ps -as
+$ docker ps -as
 # 查看 docker 容器占用 CPU，内存等信息
-docker stats --no-stream
+$ docker stats --no-stream
 # 查看容器的运行输出日志
-docker logs ss-rust
+$ docker logs ss-rust
 ```
 
 ## Uninstall 
 ```
-docker stop ss-rust && docker rm -f ss-rust
-
-systemctl stop docker && systemctl disable/enable docker
-
-apt purge docker-ce docker-ce-cli containerd.io
-rm -rf /var/lib/docker
-rm -rf /var/lib/containerd
-rm -rf /etc/shadowsocks-rust
+$ docker stop ss-rust && docker rm -f ss-rust
+$ systemctl stop docker && systemctl disable/enable docker
+$ apt purge docker-ce docker-ce-cli containerd.io
+$ rm -rf /var/lib/docker
+$ rm -rf /var/lib/containerd
+$ rm -rf /etc/shadowsocks-rust
 ```
 
 ## Thanks
