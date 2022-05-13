@@ -7,7 +7,7 @@ apt update && apt install ca-certificates wget -y && update-ca-certificates
 ```
 
 ```
-wget -O tcpx.sh "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
+$ wget -O tcpx.sh "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 启用 BBR
 ```
 ```
@@ -21,19 +21,15 @@ $ sysctl net.core.default_qdisc
 
 ## 安装 Docker
 ```
-curl -fsSL https://get.docker.com -o get-docker.sh
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
 ```
 
 ```
-sudo sh get-docker.sh
-```
-
-```
-$ systemctl start docker && systemctl enable docker
+$ systemctl enable docker && systemctl start docker
 # 查看 Docker 运行状态
 $ systemctl status docker
 ```
-
 
 ## Shadowsocks-rust 配置
 ```
@@ -41,6 +37,11 @@ mkdir -p /etc/shadowsocks-rust
 ```
 
 **修改配置文件中的 `server_port` 和 `password`**
+
+```
+# 生成密码
+$ openssl rand -base64 16
+```
 
 ```
 cat > /etc/shadowsocks-rust/config.json <<EOF
@@ -77,6 +78,10 @@ $ docker stats --no-stream
 # 查看容器的运行输出日志
 $ docker logs ss-rust
 ```
+如何部署一台抗封锁的Shadowsocks-libev服务器 (gfw.report)
+
+## 
+**[如何部署一台抗封锁的Shadowsocks-libev服务器](https://www.gfw.report/blog/ss_tutorial/zh/)**
 
 ## Uninstall 
 ```
