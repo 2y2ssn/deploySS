@@ -1,8 +1,7 @@
 # 部署 Shadowsocks-rust
 
 ```
-$ apt update && apt upgrade -y && apt install wget unzip
-$ cd /usr/local/bin/
+$ apt update && apt upgrade -y
 $ wget -N --no-check-certificate "https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.14.3/shadowsocks-v1.14.3.x86_64-unknown-linux-gnu.tar.xz" -O shadowsocks-rust.tar.xz 
 $ xz -d shadowsocks-rust.tar.xz && tar -xf shadowsocks-rust.tar
 $ mv ssserver /usr/local/bin/  #拷贝到运行路径下
@@ -32,7 +31,6 @@ EOF
 /usr/local/bin/ssserver -c /etc/shadowsocks-rust/config.json
 ```
 
-
 ### 创建服务文件service
 
 ```
@@ -56,3 +54,5 @@ $ systemctl daemon-reload
 $ systemctl start/stop/status ssrust
 $ systemctl enable/disable ssrust //加入开机自启
 ```
+
+**[如何部署一台抗封锁的Shadowsocks-libev服务器](https://www.gfw.report/blog/ss_tutorial/zh/)**
