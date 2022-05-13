@@ -3,10 +3,11 @@
 ## 
 
 ```
-mkdir -p /etc/trojan-go
-mkdir -p /var/www/html
-mkdir -p /var/log/trojan-go
-mkdir -p /home/tls
+$ apt update && apt upgrade -y && apt install wget unzip -y
+$ mkdir -p /etc/trojan-go
+$ mkdir -p /var/www/html
+$ mkdir -p /var/log/trojan-go
+$ mkdir -p /home/tls
 ```
 
 ### acme.sh
@@ -50,15 +51,15 @@ http {
 
 
 ```
-wget -O https://github.com/p4gefau1t/trojan-go/releases/download/v0.10.6/trojan-go-darwin-amd64.zip
+$ wget -O --no-check-certificate https://github.com/p4gefau1t/trojan-go/releases/download/v0.10.6/trojan-go-darwin-amd64.zip
+$ unzip trojan-go-linux-amd64.zip 
+$ mv trojan-go /etc/local/usr/
+$ mv geosite.dat geoip.dat /etc/trojan-go/
+$ chmod +x /usr/local/bin/trojan-go
 ```
 
 ### Trojan-go.service
 
-```
-mv trojan-go /etc/local/usr/
-mv geosite.dat geoip.dat /etc/trojan-go/
-```
 ```
 cat > /etc/systemd/system/trojan-go.service <<EOF
 [Unit]
@@ -118,4 +119,17 @@ cat > /etc/trojan-go/config.json <<EOF
     }
 }
 EOF
+```
+
+```
+$ /usr/local/bin/trojan-go  -config /etc/trojan-go/config.json
+$ systemctl enable trojan-go
+$ systemctl daemon-reload
+$ systemctl start/stop/restart trojan-go
+$ systemctl status trojan-go
+```
+
+```
+$ crontab -e
+10 0 12 * * systemctl restart trojan-go.service
 ```
