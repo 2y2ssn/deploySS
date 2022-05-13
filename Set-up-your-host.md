@@ -77,3 +77,75 @@ ssh -i ~/.ssh/id_{type} user@example.com -p port
 ```
 
 [SSH Command Cheat Sheet](https://quickref.me/ssh)
+
+## UFW & Fail2ban
+
+```
+apt update && apt install ufw -y
+ufw allow 21212/tcp
+ufw allow 25565
+ufw allow https
+ufw delete allow https
+ufw enable/status
+```
+
+```
+$ apt update && apt install fail2ban -y
+
+$ systemctl enable/restart/status fail2ban
+$ fail2ban-client status
+$ fail2ban-client start/reload/stop/status
+$ fail2ban-client status sshd
+```
+```
+$ cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
+$ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+```
+
+```
+vim /etc/fail2ban/jail.local
+
+[sshd]
+enabled = true
+port = SSH-port
+bantime = 100d
+maxentry = 2
+```
+
+```
+cat <<EOF >> /etc/fail2ban/jail.local
+[DEFAULT]
+ignoreip = 127.0.0.1
+bantime = 86400
+maxretry = 3
+findtime = 1800
+
+[ssh-iptables]
+enabled = true
+filter = sshd
+action = iptables[name=SSH, port=ssh, protocol=tcp]
+logpath = /var/log/secure
+maxretry = $maxretry
+findtime = 3600
+bantime = $bantime
+EOF
+```
+
+```
+cat <<EOF >> /etc/fail2ban/jail.local
+[DEFAULT]
+ignoreip = 127.0.0.1
+bantime = 86400
+maxretry = $maxretry
+findtime = 1800
+
+[ssh-iptables]
+enabled = true
+filter = sshd
+action = iptables[name=SSH, port=ssh, protocol=tcp]
+logpath = /var/log/auth.log
+maxretry = $maxretry
+findtime = 3600
+bantime = $bantime
+EOF
+```
