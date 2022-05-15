@@ -15,8 +15,9 @@ $ acme.sh --renew -d example.com --force --ecc
 ### Use Cloudflare domain API
 Cloudflare Domain API offers two methods to automatically issue certs.
 
-**Using the global API key**
 
+#### Method 1
+**Using the global API key**
 First you need to login to your Cloudflare account to get your [API key](https://dash.cloudflare.com/profile). Each token generated is not stored on cloudflare account and will have expiry if not set correctly. You will get this in API keys section.
 ```
 export CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
@@ -28,6 +29,35 @@ $ mkdir  /home/tls/example.com  #建立文件夹存放申请的证书、密钥
 $ acme.sh --ecc --installcert -d example.com  --key-file /home/tls/example.com/private.key  --fullchain-file /home/tls/example.com/fullchain.cer
 ```
 The `CF_Key` and `CF_Email` will be saved in ~/.acme.sh/account.conf and will be reused when needed.
+
+
+#### Method 2
+**Using the new cloudflare api token, you will get this after normal login and  scroll down on dashboard and copy credentials.**
+```
+export CF_Token="sdfsdfsdfljlbjkljlkjsdfoiwje"
+export CF_Account_ID="xxxxxxxxxxxxx"
+```
+
+In order to use the new token, the token currently needs access read 
+access to Zone.Zone, and write access to Zone.DNS, across all Zones.  
+See Issue #2398 for more info.
+
+
+Alternatively, if the certificate only covers a single zone, you can 
+restrict the API Token only for write access to Zone.DNS for a single 
+domain, and then specify the CF_Zone_ID directly:
+
+```
+export CF_Token="sdfsdfsdfljlbjkljlkjsdfoiwje"
+export CF_Account_ID="xxxxxxxxxxxxx"
+export CF_Zone_ID="xxxxxxxxxxxxx"
+```
+Ok, let's issue a cert now
+```
+acme.sh --issue --dns dns_cf -d example.com -d www.example.com
+```
+The `CF_Key` and `CF_Email` or `CF_Token` and `CF_Account_ID` will be saved in ~/.acme.sh/account.conf and will be reused when needed.
+
 
 ### Use ClouDNS.net API
 
