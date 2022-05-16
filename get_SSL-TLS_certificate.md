@@ -97,3 +97,4 @@ $ acme.sh --issue --standalone -d example.com -d www.example.com -d cp.example.c
 4. [Certbot Instructions  | issue a cert](https://certbot.eff.org/instructions)
 5. [zerossl-bot: The repository for the ZeroSSL certbot wrapper ](https://github.com/zerossl/zerossl-bot)
 6. [Qualys SSL Labs](https://www.ssllabs.com/)
+7. [使用 acme.sh 配置自动续签 SSL 证书](https://u.sb/acme-sh-ssl/)
