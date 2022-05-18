@@ -196,7 +196,3 @@ $ systemctl start/stop/restart trojan-go
 $ systemctl status trojan-go
 ```
 
-```
-$ crontab -e
-10 0 12 * * systemctl restart trojan-go.service
-```
