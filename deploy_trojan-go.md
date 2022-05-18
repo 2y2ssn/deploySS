@@ -1,6 +1,6 @@
 # Trojan-go + Nginx
 
-Tip：本文环境 ubuntu20.04，如使用其他版本的 Linux，自行修改
+Tip：本文环境 ubuntu20.04，如使用其他版本的 Linux，自行修改安装 Nginx 的源
 
 **创建必要的文件目录**
 ```
