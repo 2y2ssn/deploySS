@@ -4,7 +4,7 @@ Tip：本文环境 ubuntu20.04，如使用其他版本的 Linux，自行修改�
 
 **创建必要的文件目录**
 ```
-$ apt update && apt upgrade -y && apt install wget unzip -y
+$ apt update && apt upgrade -y && apt install curl wget vim unzip gnupg2 cron socat -y
 $ mkdir -p /etc/trojan-go
 $ mkdir -p /var/www/html
 $ mkdir -p /var/log/trojan-go
@@ -14,7 +14,6 @@ $ mkdir -p /home/tls
 ### acme.sh
 
 ```
-$ apt update && apt install cron socat curl wget  -y
 $ wget -O -  https://get.acme.sh | sh -s email=my@example.com
 # 推荐使用 DNS APi 申请证书
 $ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com
@@ -43,7 +42,6 @@ $ curl -I 127.0.0.1
 HTTP/1.1 200 OK
 Server: nginx/1.13.8
 ```
-
 
 ```
 vim /lib/systemd/system/nginx.service
@@ -101,6 +99,8 @@ http {
 ```
 
 [Installing NGINX Open Source](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/)
+[nginx documentation](https://nginx.org/en/docs/)
+
 
 ## Trojan-go
 
