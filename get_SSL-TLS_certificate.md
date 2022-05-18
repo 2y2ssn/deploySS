@@ -24,9 +24,7 @@ export CF_Key="sdfsdfsdfljlbjkljlkjsdfoiwje"
 export CF_Email="xxxx@sss.com"
 ```
 ```
-$ acme.sh --issue --dns dns_cf -d example.com -d www.example.com --keylength ec-256
-$ mkdir  /home/tls/example.com  #建立文件夹存放申请的证书、密钥
-$ acme.sh --ecc --installcert -d example.com  --key-file /home/tls/example.com/private.key  --fullchain-file /home/tls/example.com/fullchain.cer
+$ acme.sh --issue --dns dns_cf -d example.com -d www.example.com
 ```
 The `CF_Key` and `CF_Email` will be saved in ~/.acme.sh/account.conf and will be reused when needed.
 
@@ -58,6 +56,12 @@ acme.sh --issue --dns dns_cf -d example.com -d www.example.com
 ```
 The `CF_Key` and `CF_Email` or `CF_Token` and `CF_Account_ID` will be saved in ~/.acme.sh/account.conf and will be reused when needed.
 
+
+```
+$ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com -d www.example.com
+$ mkdir  /home/tls/example.com  #建立文件夹存放申请的证书、密钥
+$ acme.sh --ecc --installcert -d example.com  --key-file /home/tls/example.com/private.key  --fullchain-file /home/tls/example.com/fullchain.cer
+```
 
 ### Use ClouDNS.net API
 
