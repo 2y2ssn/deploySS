@@ -1,7 +1,8 @@
 # Trojan-go + Nginx
 
-## 
+Tip：本文环境 ubuntu20.04，如使用其他版本的 Linux，自行修改
 
+**创建必要的文件目录**
 ```
 $ apt update && apt upgrade -y && apt install wget unzip -y
 $ mkdir -p /etc/trojan-go
@@ -11,14 +12,67 @@ $ mkdir -p /home/tls
 ```
 
 ### acme.sh
-```
-wget -O -  https://get.acme.sh | sh -s email=my@example.com
-
 
 ```
+$ apt update && apt install cron socat curl wget  -y
+$ wget -O -  https://get.acme.sh | sh -s email=my@example.com
+# 推荐使用 DNS APi 申请证书
+$ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com
+```
 
+## Nginx
+
+```
+$ sudo wget https://nginx.org/keys/nginx_signing.key
+$ sudo apt-key add nginx_signing.key
+```
+```
+sudo vim /etc/apt/sources.list
+```
+
+```
+deb https://nginx.org/packages/mainline/ubuntu/ focal nginx
+deb-src https://nginx.org/packages/mainline/ubuntu/ focal nginx
+```
+```
+$ sudo apt install nginx
+$ nginx -s signal/stop/quit/reload/reopen
+$ ps -ax | grep nginx
+
+$ curl -I 127.0.0.1
+HTTP/1.1 200 OK
+Server: nginx/1.13.8
+```
+
+
+```
+vim /lib/systemd/system/nginx.service
+```
+
+```
+[Unit]
+Description=A high performance web server and a reverse proxy server
+Documentation=man:nginx(8)
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/run/nginx.pid
+ExecStartPre=/usr/sbin/nginx -t -q -g 'daemon on; master_process on;'
+ExecStart=/usr/sbin/nginx -g 'daemon on; master_process on;'
+ExecReload=/usr/sbin/nginx -g 'daemon on; master_process on;' -s reload
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid
+TimeoutStopSec=5
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+```
 
 ### Nginx.conf
+
+By default, the configuration file is named nginx.conf and placed in the directory`/usr/local/nginx/conf`, `/etc/nginx`, or `/usr/local/etc/nginx`.
+
 ```
 vim /etc/nginx/nginx.conf
 ```
@@ -45,15 +99,15 @@ http {
     }
 }
 ```
+
 [Installing NGINX Open Source](https://docs.nginx.com/nginx/admin-guide/installing-nginx/installing-nginx-open-source/)
 
 ## Trojan-go
 
-
 ```
 $ wget -O --no-check-certificate https://github.com/p4gefau1t/trojan-go/releases/download/v0.10.6/trojan-go-darwin-amd64.zip
 $ unzip trojan-go-linux-amd64.zip 
-$ mv trojan-go /etc/local/usr/
+$ mv trojan-go /usr/local/bin/
 $ mv geosite.dat geoip.dat /etc/trojan-go/
 $ chmod +x /usr/local/bin/trojan-go
 ```
@@ -72,7 +126,7 @@ User=root
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
-ExecStart=/usr/local/bin/trojan-go/trojan-go -config /etc/trojan-go/config.json
+ExecStart=/usr/local/bin/trojan-go -config /etc/trojan-go/config.json
 Restart=on-failure
 RestartSec=10s
 LimitNOFILE=infinity
@@ -82,7 +136,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-### Trojan-go confgi.json
+### Trojan-go config.json
 
 ```
 cat > /etc/trojan-go/config.json <<EOF
@@ -116,7 +170,20 @@ cat > /etc/trojan-go/config.json <<EOF
         "no_delay": true,
         "keep_alive": true,
         "prefer_ipv4": false
+    },
+    "router": {
+        "enabled": true,
+        "block": [
+            "geoip:private",
+            "geoip:cn",
+            "geosite:cn",
+            "bittorrent"
+        ],
+        "geoip": "/etc/trojan-go/geoip.dat",
+        "geosite": "/etc/trojan-go/geosite.dat"
     }
+}
+
 }
 EOF
 ```
