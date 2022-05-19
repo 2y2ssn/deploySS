@@ -1,9 +1,9 @@
 
 ```
 $ vim /etc/sysctl.conf
-$ sysctl -p
 # net.ipv4.ip_forward=0
 net.ipv4.ip_forward=1
+$ sysctl -p
 ```
 ```
 $ apt install iptables -y
@@ -46,6 +46,7 @@ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000 -j SNAT --
 # 查看 iptables 规则
 $ iptables -t nat -vnL POSTROUTING
 $ iptables -t nat -vnL PREROUTING
+$ iptables -t nat -vnL PREROUTING --line
 # 删除 iptables-Routing 规则
 $ iptables -t nat -D POSTROUTING {rule-number-here}
 $ iptables -t nat -D POSTROUTING 1
