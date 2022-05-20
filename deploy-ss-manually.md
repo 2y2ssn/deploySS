@@ -50,12 +50,12 @@ ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks-rust/config.json
 
 [Install]
 WantedBy=multi-user.target
+EOF
 ```
 
 ```
-$ systemctl daemon-reload
+$ systemctl daemon-reload && systemctl enable ssrust
 $ systemctl start/stop/status ssrust
-$ systemctl enable/disable ssrust //加入开机自启
 ```
 
 **[如何部署一台抗封锁的Shadowsocks-libev服务器](https://www.gfw.report/blog/ss_tutorial/zh/)**
