@@ -8,7 +8,7 @@ $ wget -N --no-check-certificate "https://github.com/shadowsocks/shadowsocks-rus
 
 $ xz -d shadowsocks-rust.tar.xz && tar -xf shadowsocks-rust.tar
 $ mv ssserver /usr/local/bin/  #拷贝到运行路径下
-$ chmod +x /usr/local/bin/sserver  #给予执行权限
+$ chmod +x /usr/local/bin/ssserver  #给予执行权限
 ```
 
 ```
