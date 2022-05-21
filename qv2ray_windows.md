@@ -36,7 +36,7 @@ scoop install mochi/qv2ray-plugin-trojan
 
 [Qv2ray Github Release](https://github.com/Qv2ray/Qv2ray/releases)
 [V2ray Github Release](https://github.com/v2fly/v2ray-core/releases)
-[V2ray Fastgit](https://hub.fastgit.org/v2fly/v2ray-core/releases)
+[V2ray Fastgit](https://hub.fastgit.xyz/v2fly/v2ray-core/releases)
 
 
 
