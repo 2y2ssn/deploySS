@@ -31,13 +31,13 @@ scoop install mochi/qv2ray-plugin-trojan
 ```
 
 
-
 ## 2. 从 Github Release 下载并配置 Qv2ray
 
 [Qv2ray Github Release](https://github.com/Qv2ray/Qv2ray/releases)
-[V2ray Github Release](https://github.com/v2fly/v2ray-core/releases)
-[V2ray Fastgit](https://hub.fastgit.xyz/v2fly/v2ray-core/releases)
 
+[V2ray Github Release](https://github.com/v2fly/v2ray-core/releases)
+
+[V2ray Fastgit](https://hub.fastgit.xyz/v2fly/v2ray-core/releases)
 
 
 ## 3. 参考
