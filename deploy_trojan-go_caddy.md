@@ -9,6 +9,7 @@ $ mkdir -p /etc/trojan-go
 $ mkdir -p /var/www/html
 $ mkdir -p /var/log/trojan-go
 $ mkdir -p /home/tls
+$ mkdir -p /etc/caddy
 ```
 
 ### acme.sh
