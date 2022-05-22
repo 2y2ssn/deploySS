@@ -61,45 +61,65 @@ $ sudo bash go.sh
 ```
 [v2rayA Wiki](https://github.com/v2rayA/v2rayA/wiki)
 
-## 3. 修改系统 DNS
 
+
+## 3. 修改 Ubuntu20.04 DNS
 如果希望在透明代理环境里让v2ray的内置dns接管本地dns，则勾选“dns拦截”。注意，在透明代理环境下，如果系统dns或v2ray的内置dns配置不当，可能导致系统无法解析域名从而无法正常上网。
 
 ```
 $ cat /etc/resolv.conf
-# 使 NetworkManager 用 systemd-resolved 解析域名
+# NetworkManager 使用 systemd-resolved 解析域名
 $ sudo vim /etc/NetworkManager/NetworkManager.conf
-
-# Add 
-main: dns=default
-
-$ service network-manager restart
+```
 
 ```
+[main]
+dns=systemd-resolved
 ```
-$ sudo vim sudo vim /etc/systemd/resolved.conf
-DNS=1.0.0.1 1.1.1.1 45.11.45.11
-DNSOverTLS=yes
+
+```
+$ sudo vim /etc/systemd/resolved.conf
+
+[Resolve]
+DNS=119.29.29.29 9.9.9.11
+FallbackDNS=223.5.5.5 45.11.45.11 1.0.0.2
+#Domains=
+#LLMNR=no
+#MulticastDNS=no
 DNSSEC=yes
+DNSOverTLS=yes
+#Cache=yes
+#DNSStubListener=yes
+#ReadEtcHosts=yes
 ```
+
 ```
-# DNS
-# https://dns.cloudflare.com/dns-query
-# https://dns11.quad9.net/dns-query
-# https://dns.alidns.com/dns-query
-# https://doh.pub/dns-query
+$ sudo vim /etc/resolv.conf
+# nameservers 127.0.0.53
+$ sudo chattr +i /etc/resolv.conf
+```
+
+```
+sudo systemctl enable --now systemd-resolved
+sudo systemctl restart systemd-resolved.service
+sudo systemctl restart NetworkManager
 ```
 
 ## 4. 使用 cgproxy 实现透明代理
 [springzfx/cgproxy: Transparent Proxy with cgroup 透明代理，配合v2ray/Qv2ray食用最佳](https://github.com/springzfx/cgproxy)
 
+### 4.1 Qv2ray 设置
+
+在“首选项-入站设置”的下方启用透明代理选项。
+
+监听ipv4地址可填127.0.0.1或0.0.0.0，建议前者。若需双栈代理，则在监听ipv6地址填上::1（如果监听ipv4填了0.0.0.0则可不填）。
+在“网络模式”中勾选需要透明代理的协议。模式选择“tproxy”。
+如果希望在透明代理环境里让v2ray的内置dns接管本地dns，则勾选“dns拦截”。注意，在透明代理环境下，如果系统dns或v2ray的内置dns配置不当，可能导致系统无法解析域名从而无法正常上网。
+
+### 4.2 安装 cgproxy
 ```
 # Download from https://github.com/springzfx/cgproxy#how-to-build-and-install
 $ sudo dpkg -i cgproxy_0.19_amd64.deb
-
-# 更新 v2ray 后需要重新授权
-$ sudo setcap "cap_net_admin,cap_net_bind_service=ep" $(which v2ray)
-$ sudo setcap "cap_net_admin,cap_net_bind_service=ep" /usr/bin/v2ray
 ```
 
 ```
@@ -124,6 +144,12 @@ EOF
 ```
 
 ```
+# 如启用 udp 的透明代理，则给 v2ray 二进制文件加上相应的特权[更新 v2ray 后需要重新授权]
+$ sudo setcap "cap_net_admin,cap_net_bind_service=ep" $(which v2ray)
+$ sudo setcap "cap_net_admin,cap_net_bind_service=ep" /usr/bin/v2ray
+```
+
+```
 $ sudo systemctl enable --now cgproxy.service
 $ sudo systemctl restart/stop/start/status/disable cgproxy.service
 ```
@@ -133,3 +159,14 @@ $ sudo systemctl restart/stop/start/status/disable cgproxy.service
 $ cgproxy curl -sSLv https://www.google.com/
 $ cgproxy curl -vI https://www.google.com
 ```
+
+```
+# 加一行指令干掉 ICMP，开机启动，防止裸连泄露,把 $OUT_NC 换成你网卡的名字
+#!/bin/bash
+sudo iptables -A OUTPUT -p icmp -o $OUT_NC -j REJECT
+```
+
+### 参考
+
+1. [使用 Qv2ray + cgproxy 配置 Linux 透明代理](https://zhangjk98.xyz/qv2ray-transparent-proxy/)
+2. [在 Arch Linux 上用 cgproxy Qv2ray 和 Trojan-go 实现全局代理 ](https://blog-h3a-moe.pages.dev/src/d07401/)
