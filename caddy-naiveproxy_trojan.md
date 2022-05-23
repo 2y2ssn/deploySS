@@ -129,3 +129,8 @@ EOF
 systemctl enable caddy.service
 systemctl restart caddy
 ````
+
+```
+# 如需使用 quic 传输协议，需要放行 443/udp
+ufw allow 443/udp
+```
