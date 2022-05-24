@@ -128,3 +128,6 @@ systemctl restart caddy
 # 如需使用 quic 传输协议，需要放行 443/udp
 ufw allow 443/udp
 ```
+
+## Reference
+1. [klzgrad/naiveproxy: Make a fortune quietly](https://github.com/klzgrad/naiveproxy)
