@@ -4,10 +4,20 @@ $ apt install vim wget curl fail2ban ufw git -y
 ```
 
 ```
+$ hostnamectl
+$ cat /etc/hostname
 # 查看镜像源
-cat /etc/apt/sources.list
+$ cat /etc/apt/sources.list
 # 修改时区为上海
-sudo timedatectl set-timezone Asia/Shanghai
+$ sudo timedatectl set-timezone Asia/Shanghai
+# DNS
+$ cat /etc/systemd/resolved.conf
+```
+
+```
+# https://mirrors.ustc.edu.cn/repogen/
+$ sudo sed -i "s@http://.*archive.ubuntu.com@https://repo.huaweicloud.com@g" /etc/apt/sources.list
+$ sudo sed -i "s@http://.*security.ubuntu.com@https://repo.huaweicloud.com@g" /etc/apt/sources.list
 ```
 
 ```
@@ -17,7 +27,7 @@ openssl rand -base64 16
 
 ### Optimization
 
-#### Manual
+#### BBR Manual
 ```
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
 sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
@@ -36,6 +46,9 @@ uname -r
 lsmod | grep bbr
 ```
 
+```
+wget -N --no-check-certificate "https://raw.githubusercontent.com/teddysun/across/master/bbr.sh" && bash ./bbr.sh
+```
 
 ## SSH 进阶
 
