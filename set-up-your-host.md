@@ -1,3 +1,4 @@
+
 ```
 $ apt update && apt upgrade -y && apt autoremove -y && apt autoclean -y
 $ apt install vim wget curl fail2ban ufw git -y
@@ -11,9 +12,16 @@ $ cat /etc/apt/sources.list
 # 修改时区为上海
 $ sudo timedatectl set-timezone Asia/Shanghai
 # DNS
+$ cat /etc/resolv.conf
 $ cat /etc/systemd/resolved.conf
 ```
-
+### DNS64
+```
+$ echo -e "nameserver 2606:4700:4700::64\nnameserver 2606:4700:4700::6400" > /etc/resolv.conf
+# 2606:4700:4700::64 / 2606:4700:4700:0:0:0:0:64 / 2606:4700:4700::6400 / 2606:4700:4700:0:0:0:0:6400
+$ echo -e "nameserver 2a01:4f8:c2c:123f::1\nnameserver 2001:67c:2b0::4\nnameserver 2001:67c:2b0::6" > /etc/resolv.conf
+```
+### sources.list
 ```
 # https://mirrors.ustc.edu.cn/repogen/
 $ sudo sed -i "s@http://.*archive.ubuntu.com@https://repo.huaweicloud.com@g" /etc/apt/sources.list
@@ -45,7 +53,6 @@ uname -r
 # 查看是否开启 tcp_ bbr
 lsmod | grep bbr
 ```
-
 ```
 wget -N --no-check-certificate "https://raw.githubusercontent.com/teddysun/across/master/bbr.sh" && bash ./bbr.sh
 ```
@@ -162,3 +169,9 @@ findtime = 3600
 bantime = $bantime
 EOF
 ```
+
+## Reference
+[How to Use Fail2ban to Secure Your Server](https://www.linode.com/docs/guides/using-fail2ban-to-secure-your-server-a-tutorial/)
+[Proper fail2ban configuration | Wiki](https://github.com/fail2ban/fail2ban/wiki/Proper-fail2ban-configuration)
+[Linux 使用 adduser 与 useradd 添加普通用户的正确姿势 ](https://p3terx.com/archives/add-normal-users-with-adduser-and-useradd.html)
+[Linux 中授予普通用户 sudo 权限的正确方法](https://p3terx.com/archives/linux-grants-normal-user-sudo-permission.html)
