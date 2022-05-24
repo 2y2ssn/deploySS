@@ -12,9 +12,8 @@ $ acme.sh --renew -d example.com --force --ecc
 
 ## Automatic DNS API integration
 
-### Use Cloudflare domain API
+### Use Cloudflare domain API(Recommand Method 2)
 Cloudflare Domain API offers two methods to automatically issue certs.
-
 
 #### Method 1
 **Using the global API key**
