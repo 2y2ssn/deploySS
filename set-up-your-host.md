@@ -25,9 +25,9 @@ $ sudo sed -i "s@http://.*security.ubuntu.com@https://repo.huaweicloud.com@g" /e
 openssl rand -base64 16
 ```
 
-### Optimization
+## Optimization
 
-#### BBR Manual
+### BBR Manual
 ```
 sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
 sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
@@ -36,7 +36,7 @@ echo "net.core.default_qdisc = fq" >>/etc/sysctl.conf
 sysctl -p >/dev/null 2>&1
 ```
 
-#### Script
+### BBR Script
 ```
 $ wget -N --no-check-certificate "https://github.com/ylx2016/Linux-NetSpeed/raw/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 以开启 TCP BBR
