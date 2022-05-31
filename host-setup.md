@@ -23,7 +23,7 @@ $ echo -e "nameserver 2a01:4f8:c2c:123f::1\nnameserver 2001:67c:2b0::4\nnameserv
 ```
 ### sources.list
 ```
-# https://mirrors.ustc.edu.cn/repogen/
+# For server in China https://mirrors.ustc.edu.cn/repogen/
 $ sudo sed -i "s@http://.*archive.ubuntu.com@https://repo.huaweicloud.com@g" /etc/apt/sources.list
 $ sudo sed -i "s@http://.*security.ubuntu.com@https://repo.huaweicloud.com@g" /etc/apt/sources.list
 ```
@@ -176,3 +176,6 @@ EOF
 3. [Linux 使用 adduser 与 useradd 添加普通用户的正确姿势 ](https://p3terx.com/archives/add-normal-users-with-adduser-and-useradd.html)
 4. [Linux 中授予普通用户 sudo 权限的正确方法](https://p3terx.com/archives/linux-grants-normal-user-sudo-permission.html)
 5. [Support for IPv6-only networks · Cloudflare 1.1.1.1 docs](https://developers.cloudflare.com/1.1.1.1/infrastructure/ipv6-networks/)
+6. [How to Use Fail2ban to Secure Your Server (A Tutorial) | Linode](https://www.linode.com/docs/guides/using-fail2ban-to-secure-your-server-a-tutorial/)
+7. [VPS 安全设置 ](https://einverne.github.io/post/2018/03/vps-security.html)
+
