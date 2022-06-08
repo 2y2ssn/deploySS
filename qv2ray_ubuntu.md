@@ -66,44 +66,6 @@ $ sudo bash go.sh
 ## 3. 修改 Ubuntu20.04 DNS
 如果希望在透明代理环境里让v2ray的内置dns接管本地dns，则勾选“dns拦截”。注意，在透明代理环境下，如果系统dns或v2ray的内置dns配置不当，可能导致系统无法解析域名从而无法正常上网。
 
-```
-$ cat /etc/resolv.conf
-# NetworkManager 使用 systemd-resolved 解析域名
-$ sudo vim /etc/NetworkManager/NetworkManager.conf
-```
-
-```
-[main]
-dns=systemd-resolved
-```
-
-```
-$ sudo vim /etc/systemd/resolved.conf
-
-[Resolve]
-DNS=119.29.29.29 9.9.9.11
-FallbackDNS=223.5.5.5 45.11.45.11 1.0.0.2
-#Domains=
-#LLMNR=no
-#MulticastDNS=no
-DNSSEC=yes
-DNSOverTLS=yes
-#Cache=yes
-#DNSStubListener=yes
-#ReadEtcHosts=yes
-```
-
-```
-$ sudo vim /etc/resolv.conf
-# nameservers 127.0.0.53
-$ sudo chattr +i /etc/resolv.conf
-```
-
-```
-sudo systemctl enable --now systemd-resolved
-sudo systemctl restart systemd-resolved.service
-sudo systemctl restart NetworkManager
-```
 
 ## 4. 使用 cgproxy 实现透明代理
 [springzfx/cgproxy: Transparent Proxy with cgroup 透明代理，配合v2ray/Qv2ray食用最佳](https://github.com/springzfx/cgproxy)
