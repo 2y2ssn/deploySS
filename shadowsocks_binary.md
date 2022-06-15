@@ -4,9 +4,10 @@
 $ apt update && apt upgrade -y
 
 $ wget -N --no-check-certificate "https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.14.3/shadowsocks-v1.14.3.x86_64-unknown-linux-gnu.tar.xz" -O shadowsocks-rust.tar.xz
-$ wget -N --no-check-certificate "https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.14.3/shadowsocks-v1.14.3.x86_64-unknown-linux-musl.tar.xz" -O shadowsocks-rust.tar.xz
+# wget -N --no-check-certificate "https://github.com/shadowsocks/shadowsocks-rust/releases/download/v1.14.3/shadowsocks-v1.14.3.x86_64-unknown-linux-musl.tar.xz" -O shadowsocks-rust.tar.xz
 
-$ xz -d shadowsocks-rust.tar.xz && tar -xf shadowsocks-rust.tar
+# xz -d shadowsocks-rust.tar.xz && tar -xf shadowsocks-rust.tar
+$ tar -Jxvf shadowsocks-rust.tar.xz
 $ mv ssserver /usr/local/bin/  #拷贝到运行路径下
 $ chmod +x /usr/local/bin/ssserver  #给予执行权限
 ```
