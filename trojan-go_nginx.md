@@ -55,6 +55,7 @@ vim /etc/nginx/nginx.conf
 http {
     server {
         listen 80;
+        listen [::]:80; #无 IPv6 可删除。
         return 301 https://$host$request_uri;
     }
 
@@ -135,12 +136,13 @@ cat > /etc/trojan-go/config.json <<EOF
         "key": "/home/tls/example.com/private.key", //换成自己的密钥，绝对路径。
         "key_password": "",
         "cipher": "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384:TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256:TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256",
+        "curves": "",
         "prefer_server_cipher": true,
         "alpn":[
             "http/1.1"
         ],
         "reuse_session": true,
-        "session_ticket": false,
+        "session_ticket": true,
         "plain_http_response": "",
         "fallback_addr": "",
         "fallback_port": 0
@@ -172,5 +174,6 @@ $ systemctl enable trojan-go
 $ systemctl daemon-reload
 $ systemctl start/stop/restart trojan-go
 $ systemctl status trojan-go
+$ journalctl -u trojan-go
 ```
 

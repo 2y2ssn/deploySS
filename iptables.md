@@ -15,18 +15,22 @@ $ lsof -i:port
 ### 单端口转发
 
 ```
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+$ iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 2.2.2.2:30000
+$ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 ```
 
-#### 同一端口
 ```
 $ iptables -t nat -A PREROUTING -p tcp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]
 $ iptables -t nat -A PREROUTING -p udp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]
 $ iptables -t nat -A POSTROUTING -p tcp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]
 $ iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]
 ```
+
+#### 同一端口
+
 ```
 $ iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 2.2.2.2:10000
+
 $ iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 2.2.2.2:10000
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 10000 -j SNAT --to-source 1.1.1.1
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000 -j SNAT --to-source 1.1.1.1
@@ -35,10 +39,10 @@ $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000 -j SNAT 
 
 #### 不同端口
 ```
-iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 2.2.2.2:30000
-iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 2.2.2.2:30000
-iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 30000 -j SNAT --to-source 1.1.1.1
-iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000 -j SNAT --to-source 1.1.1.1
+$ iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 2.2.2.2:30000
+$ iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 2.2.2.2:30000
+$ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 30000 -j SNAT --to-source 1.1.1.1
+$ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000 -j SNAT --to-source 1.1.1.1
 ```
 
 #### 删除路由规则
@@ -47,10 +51,13 @@ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000 -j SNAT --
 # 查看 iptables 规则
 $ iptables -t nat -vnL PREROUTING
 $ iptables -t nat -vnL PREROUTING --line
-$ iptables -t nat -vnL POSTROUTING
+
 # 删除 iptables-Routing 规则
 $ iptables -t nat -D PREROUTING {rule-number-here}
 $ iptables -t nat -D PREROUTING 1
+
+$ iptables -t nat -vnL POSTROUTING
+$ iptables -t nat -vnL POSTROUTING --line
 $ iptables -t nat -D POSTROUTING {rule-number-here}
 $ iptables -t nat -D POSTROUTING 1
 ```

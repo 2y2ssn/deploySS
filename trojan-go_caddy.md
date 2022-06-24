@@ -1,6 +1,5 @@
-# Trojan-go + Nginx
+# Trojan-go + Caddy
 
-Tip：本文环境 ubuntu20.04，如使用其他版本的 Linux，自行修改安装 Nginx 的源
 
 **创建必要的文件目录**
 ```
@@ -10,6 +9,7 @@ $ mkdir -p /var/www/html
 $ mkdir -p /var/log/trojan-go
 $ mkdir -p /home/tls
 $ mkdir -p /etc/caddy
+$ mkdir -p /var/log/caddy
 ```
 
 ### acme.sh
@@ -28,8 +28,7 @@ $ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com
 $ sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
 $ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
 $ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-$ sudo apt update
-$ sudo apt install caddy
+$ apt update && apt install caddy -y
 ```
 ```
 caddy start/reload/stop
@@ -50,8 +49,8 @@ Requires=network-online.target
 Type=notify
 User=root
 Group=root
-ExecStart=/usr/local/bin/caddy/caddy run --environ --config /usr/local/etc/caddy/caddy.json //json配置调用。如是Caddyfile配置，直接修改caddy.json为Caddyfile即可。
-ExecReload=/usr/local/bin/caddy/caddy reload --config /usr/local/etc/caddy/caddy.json //json配置调用。如是Caddyfile配置，直接修改caddy.json为Caddyfile即可。
+ExecStart=/usr/local/bin/caddy/caddy run --environ --config /usr/local/etc/caddy/caddy.json //json配置 Caddyfile
+ExecReload=/usr/local/bin/caddy/caddy reload --config /usr/local/etc/caddy/caddy.json //json配置 Caddyfile 
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 LimitNPROC=512
@@ -63,6 +62,76 @@ AmbientCapabilities=CAP_NET_BIND_SERVICE
 WantedBy=multi-user.target
 ```
 
+### caddy.json
+```
+cat > /etc/caddy/caddy.json <<EOF
+{
+  "admin": {
+    "disabled": true
+  },
+  "logging": {
+    "logs": {
+      "default": {
+        "writer": {
+          "output": "file",
+          "filename": "/var/log/caddy/access.log"
+        },
+        "level": "ERROR"
+      }
+    }
+  },
+  "apps": {
+    "http": {
+      "servers": {
+        "h1": {
+          "listen": [":80"], //http默认监听端口
+          "routes": [{
+            "handle": [{
+              "handler": "static_response",
+              "headers": {
+                "Location": ["https://{http.request.host}{http.request.uri}"] //http自动跳转https
+              },
+              "status_code": 301
+            }]
+          }]
+        },
+        "h1h2c": {
+          "listen": ["127.0.0.1:853"], //http/1.1与h2c server本地监听端口
+          "routes": [{
+            "match": [{
+              "host": ["example.com"]
+            }],
+            "handle": [{
+              "handler": "subroute",
+              "routes": [{
+                "handle": [{
+                  "handler": "headers",
+                  "response": {
+                    "set": {
+                      "Strict-Transport-Security": ["max-age=31536000; includeSubDomains; preload"]
+                    }
+                  }
+                }]
+              },
+              {
+                "handle": [{
+                  "handler": "file_server",
+                  "root": "/var/www/html" //修改为自己存放的WEB文件路径
+                }]
+              }]
+            }]
+          }],
+          "automatic_https": {
+            "disable": true
+          },
+          "allow_h2c": true
+        }
+      }
+    }
+  }
+}
+EOF
+```
 
 ## Trojan-go
 
@@ -107,7 +176,7 @@ cat > /etc/trojan-go/config.json <<EOF
     "local_addr": "0.0.0.0",
     "local_port": 443,
     "remote_addr": "127.0.0.1",
-    "remote_port": 853, //http/1.1回落端口
+    "remote_port": 853, //h2与http/1.1回落端口
     "password": [
         "Your-Trojan-Password"
     ],
@@ -155,4 +224,5 @@ $ systemctl enable trojan-go
 $ systemctl daemon-reload
 $ systemctl start/stop/restart trojan-go
 $ systemctl status trojan-go
+$ journalctl -u trojan-go
 ```

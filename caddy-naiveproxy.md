@@ -102,6 +102,7 @@ cat > /etc/caddy/caddy.json <<EOF
           }],
           "tls_connection_policies": [{
             "cipher_suites": ["TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256"],
+            "curves": ["x25519","secp256r1","secp384r1","secp521r1"],
             "alpn": ["h2","http/1.1"]
           }],
           "experimental_http3": true
@@ -127,6 +128,7 @@ systemctl restart caddy
 ```
 # 如需使用 quic 传输协议，需要放行 443/udp
 ufw allow 443/udp
+journalctl -u caddy
 ```
 
 ## Reference
