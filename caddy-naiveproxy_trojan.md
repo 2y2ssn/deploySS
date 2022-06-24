@@ -68,15 +68,15 @@ cat > /etc/caddy/caddy.json <<EOF
           "routes": [{
             "handle": [{
               "handler": "forward_proxy",
-              "auth_user_deprecated": "naiveproxy-username",
-              "auth_pass_deprecated": "naiveproxy-password",
+              "auth_user_deprecated": "naiveproxy-username", //naiveproxy用户
+              "auth_pass_deprecated": "naiveproxy-password", //naiveproxy密码
               "hide_ip": true,
               "hide_via": true,
               "probe_resistance": {}
             },
             {
               "handler": "trojan",
-              "users": ["trojan-password"],
+              "users": ["trojan-password"], //Trojan密码可多组
               "connect_method": true,
               "websocket": false
             }]
@@ -107,6 +107,7 @@ cat > /etc/caddy/caddy.json <<EOF
           }],
           "tls_connection_policies": [{
             "cipher_suites": ["TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384","TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256","TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256"],
+            "curves": ["x25519","secp256r1","secp384r1","secp521r1"],
             "alpn": ["h2","http/1.1"]
           }],
           "allow_h2c": true,
@@ -128,9 +129,11 @@ EOF
 ````
 systemctl enable caddy.service
 systemctl restart caddy
+journalctl -u caddy
 ````
 
 ```
 # 如需使用 quic 传输协议，需要放行 443/udp
+ufw allow https && ufw enable
 ufw allow 443/udp
 ```
