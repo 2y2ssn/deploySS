@@ -85,3 +85,6 @@ $ iptables -t nat -A PREROUTING -p udp -m udp --dport 10000:20000 -j DNAT --to-d
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 30000:40000 -j SNAT --to-source 2.2.2.2
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000:40000 -j SNAT --to-source 2.2.2.2
 ```
+
+
+[iptables 常用命令,选项,参数及实例整理收集](https://www.ioiox.com/archives/95.html)
