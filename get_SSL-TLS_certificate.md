@@ -62,6 +62,13 @@ $ mkdir  /home/tls/example.com  #建立文件夹存放申请的证书、密钥
 $ acme.sh --ecc --installcert -d example.com  --key-file /home/tls/example.com/private.key  --fullchain-file /home/tls/example.com/fullchain.cer
 ```
 
+```
+$ acme.sh --ecc --installcert -d example.com \
+--key-file /home/tls/example.com/private.key \
+--fullchain-file /home/tls/example.com/fullchain.cer \
+--reloadcmd "systemctl restart trojan-go"
+```
+
 ### Use ClouDNS.net API
 
 You need to set the HTTP API user ID and password credentials. See: https://www.cloudns.net/wiki/article/42/. For security reasons, it's recommended to use a sub user ID that only has access to the necessary zones, as a regular API user has access to your entire account.
