@@ -30,7 +30,6 @@ $ iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [目标端口] -j 
 
 ```
 $ iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 2.2.2.2:10000
-
 $ iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 2.2.2.2:10000
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 10000 -j SNAT --to-source 1.1.1.1
 $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000 -j SNAT --to-source 1.1.1.1
