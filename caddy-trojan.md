@@ -69,7 +69,7 @@ cat > /etc/caddy/caddy.json <<EOF
             "handle": [{
               "handler": "trojan",
               "users": ["Trojan-Password","Trojan-Password2"],
-              "connect_method": true,
+              "connect_method": false,
               "websocket": false
             }]
           },
