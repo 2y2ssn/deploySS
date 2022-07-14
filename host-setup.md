@@ -1,7 +1,7 @@
 
 ```
 $ apt update && apt upgrade -y && apt autoremove -y && apt autoclean -y
-$ apt install vim wget curl fail2ban ufw git -y
+$ apt install vim wget curl fail2ban ufw git gnupg ca-certificates -y
 ```
 
 ```
