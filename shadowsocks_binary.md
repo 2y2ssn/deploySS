@@ -59,4 +59,8 @@ $ systemctl daemon-reload && systemctl enable ssrust
 $ systemctl start/stop/status ssrust
 ```
 
+```
+# 白名单模式 - 允许特定的 IP 连接
+ufw allow from xx.xx.xx.xx to any port xxx
+```
 **[如何部署一台抗封锁的Shadowsocks-libev服务器](https://www.gfw.report/blog/ss_tutorial/zh/)**
