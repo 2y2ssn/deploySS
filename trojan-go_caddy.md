@@ -213,8 +213,6 @@ cat > /etc/trojan-go/config.json <<EOF
         "geosite": "/etc/trojan-go/geosite.dat"
     }
 }
-
-}
 EOF
 ```
 
