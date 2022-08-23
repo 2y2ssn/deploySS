@@ -59,8 +59,15 @@ $ systemctl daemon-reload && systemctl enable ssrust
 $ systemctl start/stop/status ssrust
 ```
 
+## UFW
 ```
-# 白名单模式 - 允许特定的 IP 连接
-ufw allow from xx.xx.xx.xx to any port xxx
+# ufw allow from <ip address>
+$ ufw allow from 1.1.1.1
+
+# ufw allow from <target> to <destination> port <port number>
+$ ufw allow from 1.1.1.1 to any port 22
+
+# ufw allow from <target> to <destination> port <port number> proto <protocol name>
+$ ufw allow from 1.1.1.1 to any port 22 proto tcp
 ```
 **[如何部署一台抗封锁的Shadowsocks-libev服务器](https://www.gfw.report/blog/ss_tutorial/zh/)**
