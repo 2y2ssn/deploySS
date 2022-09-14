@@ -37,7 +37,8 @@ dns=systemd-resolved
 
 ```
 $ sudo vim /etc/systemd/resolved.conf
-
+```
+```
 [Resolve]
 DNS=119.29.29.29 9.9.9.11
 FallbackDNS=223.5.5.5 45.11.45.11 1.0.0.2
@@ -94,7 +95,7 @@ sysctl -p >/dev/null 2>&1
 
 ### BBR Script
 ```
-$ wget -N --no-check-certificate "https://github.com/ylx2016/Linux-NetSpeed/raw/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
+$ wget -N --no-check-certificate "https://raw.githubusercontent.com/ylx2016/Linux-NetSpeed/master/tcpx.sh" && chmod +x tcpx.sh && ./tcpx.sh
 # 选择 11 以开启 TCP BBR
 # 验证内核
 uname -r
@@ -108,12 +109,20 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/teddysun/acros
 ## SSH 进阶
 
 ```
+# 备份
+$ cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
+# 编辑 SSH 配置文件
 $ vim /etc/ssh/sshd_config
 $ systemctl status ssh
 ```
 
 ```
+# 有防火墙或者安全组的记得进行相应修改
 Port 12345
+# 允许 root 帐户登录
+PermitRootLogin yes
+# 仅允许特定用户（在 sshd_config 末尾另起一行）
+$ AllowUsers username
 PubkeyAuthentication yes
 PasswordAuthentication no
 ```
@@ -148,6 +157,7 @@ ssh -i ~/.ssh/id_{type} user@example.com -p port
 
 ## UFW & Fail2ban
 
+### UFW
 ```
 apt update && apt install ufw -y
 ufw allow 21212/tcp
@@ -157,14 +167,15 @@ ufw delete allow https
 ufw enable/status
 ```
 
+### Fail2ban
 ```
 $ apt update && apt install fail2ban -y
-
 $ systemctl enable/restart/status fail2ban
 $ fail2ban-client status
 $ fail2ban-client start/reload/stop/status
 $ fail2ban-client status sshd
 ```
+
 ```
 $ cp /etc/fail2ban/fail2ban.conf /etc/fail2ban/fail2ban.local
 $ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
@@ -172,50 +183,17 @@ $ cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 
 ```
 vim /etc/fail2ban/jail.local
-
+```
+```
 [sshd]
 enabled = true
-port = SSH-port
-bantime = 100d
-maxentry = 2
+port = 21212 # 修改为 SSH 端口
+maxentry = 3 # 最大尝试次数
+findtime = 300 # 在该时间段内超过 maxretry 次数则封禁
+bantime = 180d
 ```
-
 ```
-cat <<EOF >> /etc/fail2ban/jail.local
-[DEFAULT]
-ignoreip = 127.0.0.1
-bantime = 86400
-maxretry = 3
-findtime = 1800
-
-[ssh-iptables]
-enabled = true
-filter = sshd
-action = iptables[name=SSH, port=ssh, protocol=tcp]
-logpath = /var/log/secure
-maxretry = $maxretry
-findtime = 3600
-bantime = $bantime
-EOF
-```
-
-```
-cat <<EOF >> /etc/fail2ban/jail.local
-[DEFAULT]
-ignoreip = 127.0.0.1
-bantime = 86400
-maxretry = $maxretry
-findtime = 1800
-
-[ssh-iptables]
-enabled = true
-filter = sshd
-action = iptables[name=SSH, port=ssh, protocol=tcp]
-logpath = /var/log/auth.log
-maxretry = $maxretry
-findtime = 3600
-bantime = $bantime
-EOF
+systemctl restart fail2ban
 ```
 
 ## Reference
@@ -226,4 +204,3 @@ EOF
 5. [Support for IPv6-only networks · Cloudflare 1.1.1.1 docs](https://developers.cloudflare.com/1.1.1.1/infrastructure/ipv6-networks/)
 6. [How to Use Fail2ban to Secure Your Server (A Tutorial) | Linode](https://www.linode.com/docs/guides/using-fail2ban-to-secure-your-server-a-tutorial/)
 7. [VPS 安全设置 ](https://einverne.github.io/post/2018/03/vps-security.html)
-
