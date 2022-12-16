@@ -31,8 +31,9 @@ curl -sL yabs.sh | bash
 
 ### 流媒体测试
 ```
-$ bash <(curl -L -s https://raw.githubusercontent.com/lmc999/RegionRestrictionCheck/main/check.sh)
-$ bash <(curl -sSL "https://github.com/CoiaPrant/MediaUnlock_Test/raw/main/check.sh")
+$ bash <(curl -L -s check.unlock.media) -M 4
+# IPv6
+$ bash <(curl -L -s check.unlock.media) -M 6
 ```
 
 ### Reference
@@ -44,4 +45,3 @@ $ bash <(curl -sSL "https://github.com/CoiaPrant/MediaUnlock_Test/raw/main/check
 6. [ZBench](https://github.com/FunctionClub/ZBench)
 7. [superspeed 全国各地测速节点的一键测速脚本](https://github.com/ernisn/superspeed)
 8. [Superspeed Superbench](https://github.com/oooldking/script)
-9. [流媒体解锁检测](https://github.com/lmc999/RegionRestrictionCheck)
