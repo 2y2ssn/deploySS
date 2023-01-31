@@ -117,6 +117,11 @@ $ systemctl status ssh
 ```
 
 ```
+sed -i 's/#Port\ 22/Port\ 21212/' /etc/ssh/sshd_config && systemctl reload ssh
+
+# 一键修改默认 SSH 端口
+```
+```
 # 有防火墙或者安全组的记得进行相应修改
 Port 12345
 # 允许 root 帐户登录
