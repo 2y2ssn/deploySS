@@ -12,6 +12,7 @@ $ ifconfig
 $ netstat -tunlp
 $ lsof -i:port
 ```
+
 ### 单端口转发
 
 ```
@@ -76,7 +77,7 @@ $ iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000:30000 -j
 
 #### 不同端口
 
-将中转服务器` 2.2.2.2 `的 ` 10000~20000 ` 端口转发至**目标IP(被中转服务器)**为` 1.1.1.1 `的` 30000~40000 `端口
+将中转服务器` 2.2.2.2 `的 10000~20000 端口转发至目标IP(被中转服务器)为 1.1.1.1 的 30000~40000 端口
 
 ```
 $ iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000:20000 -j DNAT --to-destination 1.1.1.1:30000-40000
