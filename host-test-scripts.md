@@ -3,6 +3,10 @@
 ### LemonBench
 
 ```
+wget https://speed.cloudflare.com/__down\?bytes\=10000000000000 -O /dev/null
+```
+
+```
 # 快速测试
 $ curl -fsL https://ilemonra.in/LemonBenchIntl | bash -s fast
 # 完整测试
