@@ -13,6 +13,20 @@ $ netstat -tunlp
 $ lsof -i:port
 ```
 
+
+保存一下这些 iptables 的规则
+
+```shell
+ iptables-save > /etc/iptables.up.rules
+```
+编辑  `/etc/network/if-pre-up.d/iptables`，在网卡启动的时候加载这些规则
+
+```shell
+#!/bin/sh
+/sbin/iptables-restore < /etc/iptables.up.rules
+```
+然后，再 `chmod +x /etc/network/if-pre-up.d/iptables` 加上可执行权限就好了。
+
 ### 单端口转发
 
 ```
