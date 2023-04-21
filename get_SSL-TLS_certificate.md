@@ -57,13 +57,13 @@ The `CF_Key` and `CF_Email` or `CF_Token` and `CF_Account_ID` will be saved in ~
 
 
 ```
-$ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com -d www.example.com
-$ mkdir  /home/tls/example.com  #建立文件夹存放申请的证书、密钥
+$ acme.sh --issue --dns dns_cf --keylength ec-256 -d example.com
+$ mkdir -p /home/tls/example.com  #建立文件夹存放申请的证书、密钥
 $ acme.sh --ecc --installcert -d example.com  --key-file /home/tls/example.com/private.key  --fullchain-file /home/tls/example.com/fullchain.cer
 ```
 
 ```
-$ acme.sh --ecc --installcert -d example.com \
+$ acme.sh --installcert -d example.com \
 --key-file /home/tls/example.com/private.key \
 --fullchain-file /home/tls/example.com/fullchain.cer \
 --reloadcmd "systemctl restart trojan-go"
