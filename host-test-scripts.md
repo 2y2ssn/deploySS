@@ -1,10 +1,18 @@
 # Test Host Scripts
 
-### LemonBench
-
 ```
 wget https://speed.cloudflare.com/__down\?bytes\=10000000000000 -O /dev/null
 ```
+
+```
+apt install -y p7zip-full
+单线程测试： 7z b -mmt1 
+多线程测试： 7z b
+```
+
+### LemonBench
+
+
 
 ```
 # 快速测试
