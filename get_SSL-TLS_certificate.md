@@ -28,7 +28,7 @@ $ acme.sh --issue --dns dns_cf -d example.com -d www.example.com
 The `CF_Key` and `CF_Email` will be saved in ~/.acme.sh/account.conf and will be reused when needed.
 
 
-#### Method 2
+#### Method 2 Edit DNS records
 **Using the new cloudflare api token, you will get this after normal login and  scroll down on dashboard and copy credentials.**
 ```
 export CF_Token="sdfsdfsdfljlbjkljlkjsdfoiwje"
@@ -65,7 +65,7 @@ $ mkdir -p /home/tls/example.com  #建立文件夹存放申请的证书、密钥
 $ acme.sh --installcert -d example.com \
 --key-file /home/tls/example.com/private.key \
 --fullchain-file /home/tls/example.com/fullchain.cer \
---reloadcmd "systemctl restart trojan-go"
+--reloadcmd "systemctl restart v2ray"
 ```
 
 ### Use ClouDNS.net API
